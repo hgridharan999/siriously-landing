@@ -87,11 +87,12 @@ Files: index.html, logo-mark.svg, logo-mark-white.svg, app-icon.svg + 512px PNG,
 - GitHub link featured (Hari, 15 Nov): GITHUB as a fourth nav link, and "View the code on GitHub" as a quiet underlined text link beside the button. Both go to https://github.com/Henrik66/siriously. The button stays the only filled action.
 
 - Footer credit removed (Hari, 15 Nov). Footer is "Siriously" alone, on the right.
-- Demo slot (Hari, 15 Nov): a hidden 16:9 section after the intro, switched on by `data-video-url` on `#demo` in index.html. YouTube links and local files autoplay muted and loop, and start when scrolled into view. Drive links embed but wait for a click, because Drive's player allows no autoplay. With reduced motion on, nothing autoplays. When it is set, DEMO, WATCH and the button jump to `#demo`. Until then they go to the README demo section.
+- Demo (Hari, 15 Nov): the video is https://www.youtube.com/watch?v=ZjN_ducezP0. DEMO, WATCH and the button open it with sound. Beside the headline, a small silent product loop (demo-loop.webm, 13 s, 1 MB, rendered from the repo's demo-video scenes, so no YouTube overlay and it works offline) plays while it is on screen and links to the same video. With reduced motion it shows its poster and never plays. A pinned corner player was tried and dropped, because the compact page left it covering text at nearly every scroll position.
 - Overrides the "no mention of Apple's assistant" voice rule (Hari, 15 Nov): a "Seriously? / Siriously." pair contrasts Apple's Voice Control ("Show numbers. Click 14. Click 3.") with one plain sentence, followed by a short accessibility note. It still does not mention Siri.
-- A fourth statement for accessibility: "Works without your hands. Say “Siriously” and keep talking."
+- A fourth claim for accessibility: "Works without your hands. Say “Siriously” and keep talking."
+- Bottom half redesigned (Hari, 15 Nov): the Seriously?/Siriously. pair as two 20px rows, each with a small voiceprint (halting bursts for Voice Control, the hero sentence on peach for Siriously), with the accessibility note beside them. The four claims sit in one row at 15px, the footer is the mark plus "Siriously" on the left, and everything shares one four-column grid. The bottom half is about half its old height.
+- Motion (Hari, 15 Nov, overrides "no motion"): the voiceprint plays in left to right over 1.2 s on load, with words fading in as their bursts arrive; the bottom half reveals once on scroll; the footer mark blinks on hover. Transform and opacity only. All of it is off with reduced motion, and all content shows without JS.
 
 ## Still open
-- The demo video link: set `data-video-url` once the video is up. A local `demo.mp4` is the only option that works offline.
 - Hosting and domain (og:image is relative until there is one).
 - Projector body size, go-live date.
