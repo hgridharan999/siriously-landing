@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Siriously</title>
+<meta name="description" content="Voice control for the Mac that does what you said. It runs entirely on your own machine.">
+<meta name="theme-color" content="#FFFFFF">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Siriously">
+<meta property="og:description" content="Voice control for the Mac that does what you said. It runs entirely on your own machine.">
+<meta property="og:image" content="og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Siriously mark above a voiceprint of the sentence: open Slack and say the build is up">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url("fonts/geist-latin.woff2") format("woff2");
+}
+
+:root {
+  --ink: #0A0A0A;
+  --white: #FFFFFF;
+  --peach: #F7CDB0;
+  --warm-grey: #857A70;
+  --brown-grey: #5F564E;
+  --deep-brown: #3A2A1E;
+  --hairline: #DCDCD8;
+  --gutter: clamp(16px, 1.7vw, 24px);
+  --font: "Geist", "Helvetica Neue", Arial, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--font);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-wrap: break-word;
+}
+
+a { color: var(--ink); }
+a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* 1 Nav */
+.nav {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: "mark links watch";
+  align-items: center;
+  column-gap: 32px;
+  padding: 14px var(--gutter);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+.nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: none;
+}
+.nav__mark { grid-area: mark; justify-self: start; min-width: 44px; justify-content: flex-start; }
+.nav__mark svg { display: block; width: 26px; height: 26px; }
+.nav__section { grid-area: links; justify-self: center; }
+.nav__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 44px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.nav__links a { color: var(--brown-grey); }
+.nav__links a:hover { color: var(--ink); }
+.nav__watch { grid-area: watch; justify-self: end; color: var(--ink); }
+.nav__watch:hover { color: var(--brown-grey); }
+
+@media (max-width: 599.98px) {
+  .nav {
+    grid-template-columns: auto auto;
+    grid-template-areas:
+      "mark watch"
+      "links links";
+    justify-content: space-between;
+  }
+  .nav__section { justify-self: start; }
+  .nav__links { justify-content: flex-start; gap: 0 24px; }
+}
+
+/* 2 Voiceprint block */
+.page { padding: 40px var(--gutter) 0; }
+
+.field {
+  margin: 0;
+  background: var(--peach);
+  padding: clamp(24px, 4vw, 56px);
+}
+.field svg {
+  display: block;
+  width: 100%;
+  height: clamp(260px, 36vw, 520px);
+}
+.field__words {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  margin: 14px 0 0;
+  padding: 0 3% 0 4%;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--deep-brown);
+  white-space: nowrap;
+}
+
+/* 3 Intro */
+.intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+  margin-top: 72px;
+}
+.intro h1 {
+  margin: 0;
+  max-width: 16em;
+  font-size: clamp(34px, 3.2vw, 46px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.06;
+}
+.tone { color: var(--warm-grey); }
+.intro__side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  max-width: 380px;
+}
+.intro__side p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--brown-grey);
+}
+
+@media (min-width: 900px) {
+  .intro {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 380px);
+    align-items: end;
+  }
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--white);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.button:hover { background: var(--deep-brown); color: var(--white); }
+
+.intro__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 24px;
+}
+.textlink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+.textlink:hover { color: var(--brown-grey); }
+@media (forced-colors: active) {
+  .button { border: 1px solid ButtonText; }
+}
+
+/* Large two-tone lines: statements and the Seriously/Siriously pair */
+.statements,
+.versus__lines {
+  font-size: clamp(30px, 3.2vw, 46px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+
+/* Seriously? / Siriously. (same grid as the intro) */
+.versus {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+  margin-top: 88px;
+}
+.versus__lines p { margin: 0; }
+.versus__lines p + p { margin-top: 16px; }
+.versus__note {
+  margin: 0;
+  max-width: 380px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--brown-grey);
+}
+@media (min-width: 900px) {
+  .versus {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 380px);
+    align-items: end;
+  }
+}
+
+/* 4 Statements (inside .page, which already carries the side gutter) */
+.statements {
+  margin-top: 88px;
+  padding-bottom: 96px;
+}
+.statements p {
+  margin: 0;
+  padding: 28px 0;
+  border-top: 1px solid var(--hairline);
+}
+.statements p:last-child { border-bottom: 1px solid var(--hairline); }
+
+/* Demo video (hidden until data-video-url is set) */
+.demo { margin-top: 88px; }
+.demo[hidden] { display: none; }
+.demo__frame {
+  position: relative;
+  width: min(100%, calc((100vh - 48px) * 16 / 9));
+  margin-inline: auto;
+  aspect-ratio: 16 / 9;
+  background: var(--ink);
+}
+.demo__frame iframe,
+.demo__frame video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: var(--ink);
+}
+
+/* 5 Footer */
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 var(--gutter) 32px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--brown-grey);
+}
+.footer p { margin: 0; }
+</style>
+</head>
+<body id="top">
+
+<header class="nav">
+  <a class="nav__mark" href="#top" aria-label="Siriously, back to top">
+    <svg aria-hidden="true" focusable="false" viewBox="0 0 100 100"><path d="M22 46A30 30 0 0 1 78 46" fill="none" stroke="#0A0A0A" stroke-width="10" stroke-linecap="round" transform="rotate(-12 50 46)"/><circle cx="34" cy="68" r="8" fill="#0A0A0A"/><circle cx="66" cy="68" r="8" fill="#0A0A0A"/></svg>
+  </a>
+  <nav class="nav__section" aria-label="Sections">
+    <ul class="nav__links">
+      <li><a href="https://github.com/Henrik66/siriously#the-60-second-demo" data-demo-link>DEMO</a></li>
+      <li><a href="#how">HOW IT WORKS</a></li>
+      <li><a href="#how">PRIVACY</a></li>
+      <li><a href="https://github.com/Henrik66/siriously">GITHUB</a></li>
+    </ul>
+  </nav>
+  <a class="nav__watch" href="https://github.com/Henrik66/siriously#the-60-second-demo" data-demo-link>WATCH</a>
+</header>
+
+<main class="page">
+  <figure class="field">
+    <svg role="img" aria-label="Voiceprint of the sentence: open Slack and say the build is up" viewBox="0 0 1200 520" preserveAspectRatio="none" style="display: block; width: 100%; height: clamp(260px, 36vw, 520px)"><rect x="3.83333" y="245" width="9" height="30" rx="4.5" fill="#0A0A0A"></rect><rect x="20.5" y="228.5" width="9" height="63" rx="4.5" fill="#0A0A0A"></rect><rect x="37.1667" y="177.5" width="9" height="165" rx="4.5" fill="#0A0A0A"></rect><rect x="53.8333" y="172" width="9" height="176" rx="4.5" fill="#0A0A0A"></rect><rect x="70.5" y="110.5" width="9" height="299" rx="4.5" fill="#0A0A0A"></rect><rect x="87.1667" y="124" width="9" height="272" rx="4.5" fill="#0A0A0A"></rect><rect x="103.833" y="170.5" width="9" height="179" rx="4.5" fill="#0A0A0A"></rect><rect x="120.5" y="180.5" width="9" height="159" rx="4.5" fill="#0A0A0A"></rect><rect x="137.167" y="229.5" width="9" height="61" rx="4.5" fill="#0A0A0A"></rect><rect x="153.833" y="232" width="9" height="56" rx="4.5" fill="#0A0A0A"></rect><rect x="170.5" y="220" width="9" height="80" rx="4.5" fill="#0A0A0A"></rect><rect x="187.167" y="193" width="9" height="134" rx="4.5" fill="#0A0A0A"></rect><rect x="203.833" y="137.5" width="9" height="245" rx="4.5" fill="#0A0A0A"></rect><rect x="220.5" y="63" width="9" height="394" rx="4.5" fill="#0A0A0A"></rect><rect x="237.167" y="112" width="9" height="296" rx="4.5" fill="#0A0A0A"></rect><rect x="253.833" y="99" width="9" height="322" rx="4.5" fill="#0A0A0A"></rect><rect x="270.5" y="74.5" width="9" height="371" rx="4.5" fill="#0A0A0A"></rect><rect x="287.167" y="86.5" width="9" height="347" rx="4.5" fill="#0A0A0A"></rect><rect x="303.833" y="158.5" width="9" height="203" rx="4.5" fill="#0A0A0A"></rect><rect x="320.5" y="202.5" width="9" height="115" rx="4.5" fill="#0A0A0A"></rect><rect x="337.167" y="217" width="9" height="86" rx="4.5" fill="#0A0A0A"></rect><rect x="353.833" y="238.5" width="9" height="43" rx="4.5" fill="#0A0A0A"></rect><rect x="370.5" y="188.5" width="9" height="143" rx="4.5" fill="#0A0A0A"></rect><rect x="387.167" y="189.5" width="9" height="141" rx="4.5" fill="#0A0A0A"></rect><rect x="403.833" y="202" width="9" height="116" rx="4.5" fill="#0A0A0A"></rect><rect x="420.5" y="225.5" width="9" height="69" rx="4.5" fill="#0A0A0A"></rect><rect x="437.167" y="244" width="9" height="32" rx="4.5" fill="#0A0A0A"></rect><rect x="453.833" y="241.5" width="9" height="37" rx="4.5" fill="#0A0A0A"></rect><rect x="470.5" y="228" width="9" height="64" rx="4.5" fill="#0A0A0A"></rect><rect x="487.167" y="181" width="9" height="158" rx="4.5" fill="#0A0A0A"></rect><rect x="503.833" y="136.5" width="9" height="247" rx="4.5" fill="#0A0A0A"></rect><rect x="520.5" y="135" width="9" height="250" rx="4.5" fill="#0A0A0A"></rect><rect x="537.167" y="131.5" width="9" height="257" rx="4.5" fill="#0A0A0A"></rect><rect x="553.833" y="192.5" width="9" height="135" rx="4.5" fill="#0A0A0A"></rect><rect x="570.5" y="222" width="9" height="76" rx="4.5" fill="#0A0A0A"></rect><rect x="587.167" y="241.5" width="9" height="37" rx="4.5" fill="#0A0A0A"></rect><rect x="603.833" y="228" width="9" height="64" rx="4.5" fill="#0A0A0A"></rect><rect x="620.5" y="204.5" width="9" height="111" rx="4.5" fill="#0A0A0A"></rect><rect x="637.167" y="203" width="9" height="114" rx="4.5" fill="#0A0A0A"></rect><rect x="653.833" y="219.5" width="9" height="81" rx="4.5" fill="#0A0A0A"></rect><rect x="670.5" y="247.5" width="9" height="25" rx="4.5" fill="#0A0A0A"></rect><rect x="687.167" y="249.5" width="9" height="21" rx="4.5" fill="#0A0A0A"></rect><rect x="703.833" y="228" width="9" height="64" rx="4.5" fill="#0A0A0A"></rect><rect x="720.5" y="200.5" width="9" height="119" rx="4.5" fill="#0A0A0A"></rect><rect x="737.167" y="183" width="9" height="154" rx="4.5" fill="#0A0A0A"></rect><rect x="753.833" y="122.5" width="9" height="275" rx="4.5" fill="#0A0A0A"></rect><rect x="770.5" y="92.5" width="9" height="335" rx="4.5" fill="#0A0A0A"></rect><rect x="787.167" y="43" width="9" height="434" rx="4.5" fill="#0A0A0A"></rect><rect x="803.833" y="72" width="9" height="376" rx="4.5" fill="#0A0A0A"></rect><rect x="820.5" y="143.5" width="9" height="233" rx="4.5" fill="#0A0A0A"></rect><rect x="837.167" y="142.5" width="9" height="235" rx="4.5" fill="#0A0A0A"></rect><rect x="853.833" y="217.5" width="9" height="85" rx="4.5" fill="#0A0A0A"></rect><rect x="870.5" y="233" width="9" height="54" rx="4.5" fill="#0A0A0A"></rect><rect x="887.167" y="245.5" width="9" height="29" rx="4.5" fill="#0A0A0A"></rect><rect x="903.833" y="234" width="9" height="52" rx="4.5" fill="#0A0A0A"></rect><rect x="920.5" y="195.5" width="9" height="129" rx="4.5" fill="#0A0A0A"></rect><rect x="937.167" y="208" width="9" height="104" rx="4.5" fill="#0A0A0A"></rect><rect x="953.833" y="212.5" width="9" height="95" rx="4.5" fill="#0A0A0A"></rect><rect x="970.5" y="243.5" width="9" height="33" rx="4.5" fill="#0A0A0A"></rect><rect x="987.167" y="257" width="9" height="6" rx="4.5" fill="#0A0A0A"></rect><rect x="1003.83" y="249.5" width="9" height="21" rx="4.5" fill="#0A0A0A"></rect><rect x="1020.5" y="237.5" width="9" height="45" rx="4.5" fill="#0A0A0A"></rect><rect x="1037.17" y="197" width="9" height="126" rx="4.5" fill="#0A0A0A"></rect><rect x="1053.83" y="160.5" width="9" height="199" rx="4.5" fill="#0A0A0A"></rect><rect x="1070.5" y="136" width="9" height="248" rx="4.5" fill="#0A0A0A"></rect><rect x="1087.17" y="151" width="9" height="218" rx="4.5" fill="#0A0A0A"></rect><rect x="1103.83" y="165" width="9" height="190" rx="4.5" fill="#0A0A0A"></rect><rect x="1120.5" y="206.5" width="9" height="107" rx="4.5" fill="#0A0A0A"></rect><rect x="1137.17" y="243" width="9" height="34" rx="4.5" fill="#0A0A0A"></rect><rect x="1153.83" y="254.5" width="9" height="11" rx="4.5" fill="#0A0A0A"></rect><rect x="1170.5" y="257" width="9" height="6" rx="4.5" fill="#0A0A0A"></rect><rect x="1187.17" y="257" width="9" height="6" rx="4.5" fill="#0A0A0A"></rect></svg>
+    <p class="field__words" aria-hidden="true"><span>open</span><span>Slack</span><span>and</span><span>say</span><span>the</span><span>build</span><span>is</span><span>up</span></p>
+  </figure>
+
+  <div class="intro">
+    <h1>Siriously. <span class="tone">Voice control for the Mac that does what you said.</span></h1>
+    <div class="intro__side">
+      <p>Say what you want in plain words and Siriously works your apps for you. It runs entirely on your own machine.</p>
+      <div class="intro__actions">
+        <a class="button" href="https://github.com/Henrik66/siriously#the-60-second-demo" data-demo-link>Watch the demo</a>
+        <a class="textlink" href="https://github.com/Henrik66/siriously">View the code on GitHub</a>
+      </div>
+    </div>
+  </div>
+
+  <!--
+    DEMO VIDEO: paste the link into data-video-url below and the section turns on by itself.
+    Accepted: a YouTube link (watch, youtu.be, shorts or embed), a Google Drive file link,
+    or a video file next to this page such as "demo.mp4" (the only option that also works offline).
+    YouTube and local files autoplay muted and loop. Drive's player does not allow autoplay, so it waits for a click.
+    While this is empty the section stays hidden and DEMO, WATCH and the button go to the GitHub demo section.
+  -->
+  <section class="demo" id="demo" aria-label="Demo video" data-video-url="" hidden>
+    <div class="demo__frame"></div>
+  </section>
+
+  <section class="versus" aria-label="Compared with Apple's Voice Control">
+    <div class="versus__lines">
+      <p>Seriously? <span class="tone">“Show numbers. Click 14. Click 3.”</span></p>
+      <p>Siriously. <span class="tone">“Open Slack and say the build is up.”</span></p>
+    </div>
+    <p class="versus__note">Apple’s Voice Control works one click at a time: you name each button or read out its number. Siriously takes the whole sentence and does the steps itself. If a mouse or keyboard is hard for you to use, that is the difference between steering and asking.</p>
+  </section>
+
+  <section class="statements" id="how" aria-label="How it works and privacy">
+    <p>Works without your hands. <span class="tone">Say “Siriously” and keep talking.</span></p>
+    <p>Runs on your Mac. <span class="tone">Nothing you say is uploaded.</span></p>
+    <p>Works in any app. <span class="tone">Not just one it was built for.</span></p>
+    <p>Shows what it heard. <span class="tone">And who said it.</span></p>
+  </section>
+</main>
+
+<footer class="footer">
+  <p>Siriously</p>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var section = document.getElementById("demo");
+  var url = (section.getAttribute("data-video-url") || "").trim();
+  if (!url) return;
+
+  var autoplay = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var player = buildPlayer(url, autoplay);
+  if (!player) {
+    console.warn("Siriously demo: data-video-url is not a YouTube, Google Drive or video file link:", url);
+    return;
+  }
+  section.querySelector(".demo__frame").appendChild(player);
+  section.hidden = false;
+  document.querySelectorAll("[data-demo-link]").forEach(function (a) { a.setAttribute("href", "#demo"); });
+
+  function buildPlayer(link, auto) {
+    var yt = link.match(/(?:youtube(?:-nocookie)?\.com\/(?:watch\?(?:[^#]*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/);
+    if (yt) {
+      var id = yt[1];
+      var params = "autoplay=" + (auto ? 1 : 0) + "&mute=1&loop=1&playlist=" + id + "&playsinline=1&rel=0";
+      return frame("https://www.youtube-nocookie.com/embed/" + id + "?" + params);
+    }
+    var drive = link.match(/drive\.google\.com\/(?:file\/d\/|(?:open|uc)\?(?:[^#]*&)?id=)([\w-]+)/);
+    if (drive) return frame("https://drive.google.com/file/d/" + drive[1] + "/preview");
+    if (/\.(mp4|webm|mov|m4v)(?:[?#]|$)/i.test(link)) {
+      var video = document.createElement("video");
+      video.src = link;
+      video.muted = true;
+      video.loop = true;
+      video.controls = true;
+      video.playsInline = true;
+      video.setAttribute("muted", "");
+      video.setAttribute("playsinline", "");
+      video.preload = auto ? "auto" : "metadata";
+      video.autoplay = auto;
+      video.setAttribute("aria-label", "Siriously demo video");
+      return video;
+    }
+    return null;
+  }
+
+  function frame(src) {
+    var f = document.createElement("iframe");
+    f.src = src;
+    f.title = "Siriously demo video";
+    f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+    f.allowFullscreen = true;
+    f.referrerPolicy = "strict-origin-when-cross-origin";
+    return f;
+  }
+})();
+</script>
+
+</body>
+</html>
