@@ -95,6 +95,8 @@ Files: index.html, logo-mark.svg, logo-mark-white.svg, app-icon.svg + 512px PNG,
 
 - Carbon counter (Hari, 15 Nov): a slim row under the claims counts the data-center CO₂e not emitted while the visitor is on the page. It assumes one command every 20 s, each counted at Google's August 2025 median for a Gemini text prompt (about 0.24 Wh, 0.03 g CO₂e), so 1.5 mg a second. It is labelled "An estimate, not a measurement" and notes that the Mac still uses power. It pauses off screen and in hidden tabs, has a pause button (WCAG 2.2.2), steps only every ~10 s with reduced motion, and shows a static per-minute line without JS.
 
+- First-screen framing (Hari, 15 Nov, overrides the 260–520px / 36vw voiceprint height): on landscape screens the peach block fills the first screen, with 40px of white below it to match the 40px above. The voiceprint height is max(260px, min(viewport height − nav − 80px − field padding − label row, 50vw)). The 50vw cap keeps portrait screens and phones at a calm height so the approved bars are never stretched thin. The approved SVG markup is untouched; the height is set from the stylesheet.
+
 ## Still open
 - Hosting and domain (og:image is relative until there is one).
 - Projector body size, go-live date.

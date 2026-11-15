@@ -37,6 +37,12 @@
   --hairline: #DCDCD8;
   --gutter: clamp(16px, 1.7vw, 24px);
   --font: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --nav-h: 72px;                       /* 14px + 44px row + 14px */
+  --field-pad: clamp(24px, 4vw, 56px);
+  --words-h: 33.5px;                   /* 14px gap + one 13px line at 1.5 */
+}
+@media (max-width: 599.98px) {
+  :root { --nav-h: 116px; }            /* links wrap to a second 44px row */
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -109,12 +115,20 @@ a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 .field {
   margin: 0;
   background: var(--peach);
-  padding: clamp(24px, 4vw, 56px);
+  padding: var(--field-pad);
 }
+/* First screen framing: on landscape screens the peach block fills the viewport,
+   with the same 40px of white below it as above. Portrait and phones keep a calm
+   height (never under 260px) so the approved bars are not stretched thin.
+   !important overrides the inline height on the approved SVG, which stays byte-identical. */
 .field svg {
   display: block;
   width: 100%;
-  height: clamp(260px, 36vw, 520px);
+  --vp-fill: calc(100vh - var(--nav-h) - 80px - 2 * var(--field-pad) - var(--words-h));
+  height: max(260px, min(var(--vp-fill), 50vw)) !important;
+}
+@supports (height: 100svh) {
+  .field svg { --vp-fill: calc(100svh - var(--nav-h) - 80px - 2 * var(--field-pad) - var(--words-h)); }
 }
 .field__words {
   display: flex;
