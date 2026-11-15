@@ -93,6 +93,8 @@ Files: index.html, logo-mark.svg, logo-mark-white.svg, app-icon.svg + 512px PNG,
 - Bottom half redesigned (Hari, 15 Nov): the Seriously?/Siriously. pair as two 20px rows, each with a small voiceprint (halting bursts for Voice Control, the hero sentence on peach for Siriously), with the accessibility note beside them. The four claims sit in one row at 15px, the footer is the mark plus "Siriously" on the left, and everything shares one four-column grid. The bottom half is about half its old height.
 - Motion (Hari, 15 Nov, overrides "no motion"): the voiceprint plays in left to right over 1.2 s on load, with words fading in as their bursts arrive; the bottom half reveals once on scroll; the footer mark blinks on hover. Transform and opacity only. All of it is off with reduced motion, and all content shows without JS.
 
+- Carbon counter (Hari, 15 Nov): a slim row under the claims counts the data-center CO₂e not emitted while the visitor is on the page. It assumes one command every 20 s, each counted at Google's August 2025 median for a Gemini text prompt (about 0.24 Wh, 0.03 g CO₂e), so 1.5 mg a second. It is labelled "An estimate, not a measurement" and notes that the Mac still uses power. It pauses off screen and in hidden tabs, has a pause button (WCAG 2.2.2), steps only every ~10 s with reduced motion, and shows a static per-minute line without JS.
+
 ## Still open
 - Hosting and domain (og:image is relative until there is one).
 - Projector body size, go-live date.
